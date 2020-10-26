@@ -34,7 +34,8 @@ function sms77_api_post($endpoint, $params) {
 
     $ch = curl_init("https://gateway.sms77.io/api/$endpoint");
     curl_setopt($ch, CURLOPT_POST, 1);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, "p=$CFG->block_sms77_apikey&$params");
+    curl_setopt($ch, CURLOPT_POSTFIELDS,
+        "p=$CFG->block_sms77_apikey&sentWith=moodle&$params");
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
     curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
     $output = curl_exec($ch);
