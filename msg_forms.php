@@ -20,10 +20,10 @@ class msg_send extends moodleform {
         $mform->addElement('header', static::$_header, get_string(static::$_header, 'block_sms77'));
 
         if (isset($c_id)) {
-            $sql = 'SELECT id, fullname FROM course where id = ?';
+            $sql = 'SELECT id, fullname FROM {course} WHERE id = ?';
             $placeholders = [$c_id];
         } else {
-            $sql = 'SELECT id, fullname FROM course';
+            $sql = 'SELECT id, fullname FROM {course}';
             $placeholders = [$params = null];
         }
         $attributes = $DB->get_records_sql_menu($sql, $placeholders, $limitfrom = 0, $limitnum = 0);
@@ -31,14 +31,14 @@ class msg_send extends moodleform {
         $mform->addElement('select', 'c_id', get_string('selectcourse', 'block_sms77'), $attributes);
         $mform->setType('c_id', PARAM_INT);
         if (isset($c_id)) {
-            $attributes = $DB->get_records_sql_menu('SELECT id, level_name FROM competency_level where id = ?', [$l_id], $limitfrom = 0, $limitnum = 0);
+            $attributes = $DB->get_records_sql_menu('SELECT id, level_name FROM {competency_level} WHERE id = ?', [$l_id], $limitfrom = 0, $limitnum = 0);
         } else {
             $attributes1 = ['teacher', 'student'];
         }
-        $attributes2 = $DB->get_records_sql_menu('SELECT id, shortname FROM role', null, $limitfrom = 0, $limitnum = 0);
+        $attributes2 = $DB->get_records_sql_menu('SELECT id, shortname FROM {role}', null, $limitfrom = 0, $limitnum = 0);
         $attributes = array_intersect($attributes2, $attributes1);
         $mform->addElement('select', 'r_id', get_string('role_select', 'block_sms77'), $attributes);
-        $attributes = $DB->get_records_sql_menu('SELECT id, tname FROM block_sms77_template', null, $limitfrom = 0, $limitnum = 0);
+        $attributes = $DB->get_records_sql_menu('SELECT id, tname FROM {block_sms77_template}', null, $limitfrom = 0, $limitnum = 0);
         $mform->addElement('selectwithlink', 'm_id',
             get_string('msg_select', 'block_sms77'), $attributes, null,
             ['link' => "$CFG->wwwroot/blocks/sms77/view.php?viewpage=3",
@@ -74,7 +74,7 @@ class msg_send extends moodleform {
             $r_id = 3;
         }
         $sql = "SELECT usr.firstname, usr.id, usr.lastname, usr.email,usr.phone2,c.fullname
-            FROM course c
+            FROM {course} c
             INNER JOIN context cx ON c.id = cx.instanceid
             AND cx.contextlevel = '50' and c.id=$c_id
             INNER JOIN role_assignments ra ON cx.id = ra.contextid

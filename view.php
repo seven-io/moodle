@@ -79,7 +79,7 @@ use ($DB, $viewPage) {
         for ($a = 0; $a < $N; $a++) {
             $id = $user[$a];
             $sql = 'SELECT usr.firstname, usr.id, usr.lastname, usr.email,usr.phone2'
-            . ' FROM user usr WHERE usr.id = ?';
+            . ' FROM {user} usr WHERE usr.id = ?';
             $no = $DB->get_record_sql($sql, [$id])->phone2;
 
             if (!empty($no)) {

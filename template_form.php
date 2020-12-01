@@ -83,7 +83,7 @@ class template_form extends moodleform {
         $table->size = ['10%', '20%', '50%', '10%', '10%'];
 
         $i = 0;
-        foreach ($DB->get_recordset_sql("SELECT * FROM block_sms77_template") as $log) {
+        foreach ($DB->get_recordset_sql("SELECT * FROM {block_sms77_template}") as $log) {
             $row = [];
             $row[] = ++$i;
             $row[] = $log->tname;
