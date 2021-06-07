@@ -21,7 +21,7 @@ if (1 === $viewPage) {
 }
 
 $PAGE->set_pagelayout('standard');
-$PAGE->set_title(get_string('pluginname', 'block_sms77'));
+$PAGE->set_title('Sms77');
 $PAGE->set_heading(get_string($heading, 'block_sms77'));
 $PAGE->set_url($redirectTo);
 

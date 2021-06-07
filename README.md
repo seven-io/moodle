@@ -1,4 +1,5 @@
 ![Sms77.io Logo](https://www.sms77.io/wp-content/uploads/2019/07/sms77-Logo-400x79.png "Sms77.io Logo")
+
 # SMS & Text2Voice Notification Block for Moodle
 
 ## Installation
@@ -9,4 +10,7 @@
 4) You will be asked for an API key. Enter it and you are ready to add a Sms77.io block.
 
 ### Support
-Need help? Feel free to send us an <a href='mailto: support@sms77.io'>email</a>.
+
+Need help? Feel free to send us an [contact us](https://www.sms77.io/en/company/contact).
+
+[![MIT](https://img.shields.io/badge/License-MIT-teal.svg)](LICENSE)

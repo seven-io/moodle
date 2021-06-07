@@ -1,6 +1,22 @@
 <?php
 
-require_once __DIR__ . '/../../config.php';
+$basePath = realpath('');
+
+$path = $basePath . '/../config.php';
+
+if (!file_exists($path)) {
+    $path = $basePath . '/../../config.php';
+}
+
+if (!file_exists($path)) {
+    $path = $basePath . '/../../../config.php';
+}
+
+if (is_link($path)) {
+    $path = readlink($path);
+}
+
+require_once $path;
 
 function sms77_msg_defaults($to, $text) {
     global $CFG;

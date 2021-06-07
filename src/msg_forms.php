@@ -28,7 +28,7 @@ class msg_send extends moodleform {
         }
         $attributes = $DB->get_records_sql_menu($sql, $placeholders, $limitfrom = 0, $limitnum = 0);
 
-        $mform->addElement('select', 'c_id', get_string('selectcourse', 'block_sms77'), $attributes);
+        $mform->addElement('select', 'c_id', get_string('select_course', 'block_sms77'), $attributes);
         $mform->setType('c_id', PARAM_INT);
         if (isset($c_id)) {
             $attributes = $DB->get_records_sql_menu('SELECT id, level_name FROM {competency_level} WHERE id = ?', [$l_id], $limitfrom = 0, $limitnum = 0);

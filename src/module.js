@@ -1,27 +1,23 @@
-M.block_sms77 = {};
-
-M.block_sms77.init = function (Y, viewPage) {
+function sms77Init(Y, viewPage) {
     var load_users = Y.one('#load_user_list');
     var select_role = Y.one('#id_r_id');
     var select_msg_tpl = Y.one('#id_m_id');
     var select_course = Y.one('#id_c_id');
     var user_list = Y.one('#table-change');
     var img = Y.one('#load');
-    var msg_body = getMessageBody();
-    var msg_tpl_id = getMessageTemplateId('value');
+    var msg_body = sms77GetMessageBody();
     var sms_send = Y.one('#submit_send_sms');
-    var voice_send = Y.one('#submit_send_voice');
-    var msg_send = sms_send ? sms_send : voice_send;
+    var msg_send = sms_send ? sms_send : Y.one('#submit_send_voice');
 
-    Y.io('load_message.php?m_id=' + msg_tpl_id, {
+    Y.io('load_message.php?m_id=' + sms77GetMessageTemplateId('value'), {
         on: {
-            complete: function (id, e) {
+            complete: function sms77LoadMessageOnComplete(id, e) {
                 img.hide();
 
                 msg_body.show();
                 msg_body.set('value', e.responseText);
             },
-            start: function () {
+            start: function sms77LoadMessageOnStart() {
                 msg_body.hide();
 
                 img.show();
@@ -33,9 +29,9 @@ M.block_sms77.init = function (Y, viewPage) {
 
     msg_send.hide();
 
-    load_users.on('click', function () { // on click "show users"
+    load_users.on('click', function onClickShowUsers() {
         var url = 'user_list.php?msg='
-            + getMessageBody().get('value')
+            + sms77GetMessageBody().get('value')
             + '&c_id='
             + select_course.get('value')
             + '&r_id='
@@ -43,49 +39,54 @@ M.block_sms77.init = function (Y, viewPage) {
 
         Y.io(url, {
             on: {
-                complete: function (id, e) {
-                    setUserList(e.responseText);
+                complete: function sms77LoadUsersOnClickOnComplete(id, e) {
+                    sms77SetUserList(e.responseText);
 
                     msg_send.show();
                 },
-                start: function () {
-                    setUserList('<img src="loading.gif" style="margin-left: 6cm;" />');
+                start: function sms77LoadUsersOnClickOnStart() {
+                    sms77SetUserList(
+                        '<img src="loading.gif" style="margin-left: 6cm;" />');
                 }
             }
         });
     });
 
     if (-1 !== [1, 2].indexOf(parseInt(viewPage))) { // send SMS or Voice
-        select_msg_tpl.on('change', function () { // select message template
-            var content = getMessageBody();
+        select_msg_tpl.on('change', function sms77OnSelectMessageTemplate() {
+            var content = sms77GetMessageBody();
 
-            Y.io('load_message.php?m_id=' + getMessageTemplateId('value'), {
+            Y.io('load_message.php?m_id=' + sms77GetMessageTemplateId('value'), {
                 on: {
-                    start: function () {
+                    complete:
+                        function sms77OnSelectMessageTemplateLoadMessageOnComplete
+                            (id, e) {
+                            img.hide();
+
+                            content.show();
+                            content.set('value', e.responseText);
+                        },
+                    start: function sms77OnSelectMessageTemplateLoadMessageOnStart() {
                         content.hide();
 
                         img.show();
-                    },
-                    complete: function (id, e) {
-                        img.hide();
-
-                        content.show();
-                        content.set('value', e.responseText);
                     }
                 }
             });
         });
     }
 
-    function setUserList(innerHTML) {
+    function sms77SetUserList(innerHTML) {
         user_list.set('innerHTML', innerHTML);
     }
 
-    function getMessageTemplateId() {
+    function sms77GetMessageTemplateId() {
         return select_msg_tpl.get('value');
     }
 
-    function getMessageBody() {
+    function sms77GetMessageBody() {
         return Y.one('#id_sms_body');
     }
-};
+}
+
+M.block_sms77 = {init: sms77Init};

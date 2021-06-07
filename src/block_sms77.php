@@ -6,7 +6,7 @@ class block_sms77 extends block_base {
      * @throws coding_exception
      */
     public function init() {
-        $this->title = get_string('sms77', 'block_sms77');
+        $this->title = 'Sms77';
     }
 
     /**
