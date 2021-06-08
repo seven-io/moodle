@@ -1,7 +1,4 @@
 <?php
-
-//die(var_dump(file_exists()));
-//require_once $_SERVER['DOCUMENT_ROOT'] . '/config.php';
 require_once 'lib.php';
 require_once 'msg_forms.php';
 require_once 'template_form.php';
@@ -38,67 +35,69 @@ echo $OUTPUT->header();
         }
     </script>
 <?php
-$messageViewHandler = static function ($form, $submitText, $apiFunction)
-use ($DB, $viewPage) {
+$msgViewHandler = static function ($form, $submitId, $apiAction) use ($DB, $viewPage) {
     $form->display();
-    $a = html_writer::table($form->display_report());
+
+    $table = html_writer::table($form->display_report());
+    $submitText = get_string('send', 'block_sms77');
 
     echo "<form action='' method='post'>
-            <div id='table-change'>$a</div>
-            <input type='submit' style='margin-left: 700px;'
-             name='submit' id='submit_send_voice' 
-             value='" . get_string($submitText, 'block_sms77') . "'/>
+            <div id='table-change'>$table</div>
+
+            <input 
+                id='$submitId' 
+                name='submit' 
+                style='margin-left: 700px'
+                type='submit' 
+                value='$submitText'
+             />
+
             <input type='hidden' name='viewpage' id='viewpage' value='$viewPage' />
          </form>";
-    $N = '';
 
-    if (isset($_REQUEST['submit'])) {
-        $msg = $_REQUEST['msg']; // SMS message
-
-        if ('' !== $_REQUEST['user']) {
-            $user = $_REQUEST['user']; // User ID.
-            $N = count($user);
-        } else {
-            echo "You didn't select any user.";
-            return;
-        }
-
-        $table = new html_table();
-
-        $table->align = ['center', 'left', 'center', 'center'];
-        $table->attributes = ['style' => 'width: 100%;'];
-        $table->head = [
-            get_string('serial_no', 'block_sms77'),
-            get_string('moodleuser', 'block_sms77'),
-            get_string('usernumber', 'block_sms77'),
-            get_string('status', 'block_sms77'),
-        ];
-        $table->size = ['10%', '40%', '30%', '20%'];
-
-        $number = [];
-
-        for ($a = 0; $a < $N; $a++) {
-            $id = $user[$a];
-            $sql = 'SELECT usr.firstname, usr.id, usr.lastname, usr.email,usr.phone2'
-            . ' FROM {user} usr WHERE usr.id = ?';
-            $no = $DB->get_record_sql($sql, [$id])->phone2;
-
-            if (!empty($no)) {
-                $number[] = $no;
-            }
-        }
-
-        $response = $apiFunction($number, $msg);
-        echo "<script>window.alert(JSON.stringify($response, null, 2))</script>";
+    if (!isset($_REQUEST['submit'])) {
+        return;
     }
+
+    $user = $_REQUEST['user']; // User ID
+    if ('' === $user) {
+        echo '<p>You did not select any user.</p>';
+        return;
+    }
+
+    $table = new html_table();
+    $table->align = ['center', 'left', 'center', 'center'];
+    $table->attributes = ['style' => 'width: 100%;'];
+    $table->head = [
+        get_string('serial_no', 'block_sms77'),
+        get_string('moodleuser', 'block_sms77'),
+        get_string('usernumber', 'block_sms77'),
+        get_string('status', 'block_sms77'),
+    ];
+    $table->size = ['10%', '40%', '30%', '20%'];
+
+    $number = [];
+    $N = count($user);
+    for ($a = 0; $a < $N; $a++) {
+        $sql = 'SELECT usr.firstname, usr.id, usr.lastname, usr.email,usr.phone2'
+            . ' FROM {user} usr WHERE usr.id = ?';
+        $no = $DB->get_record_sql($sql, [$user[$a]])->phone2;
+
+        if (!empty($no)) {
+            $number[] = $no;
+        }
+    }
+
+    $res = $apiAction($number, $_REQUEST['msg']);
+    echo "<script>window.alert(JSON.stringify($res, null, 2))</script>";
 };
 
 if (1 === $viewPage) {
-    $messageViewHandler(new voice_send, 'voice_send', 'sms77_send_voice');
+    $msgViewHandler(new voice_send, 'submit_send_voice', 'sms77_send_voice');
 } elseif (2 === $viewPage) {
-    $messageViewHandler(new sms_send, 'sms_send', 'sms77_send_sms');
+    $msgViewHandler(new sms_send, 'submit_send_sms', 'sms77_send_sms');
 } else if (3 === $viewPage) {
-    $form = new template_form();
+    $form = new template_form;
 
     if (optional_param('rem', null, PARAM_RAW)) {
         $delete = optional_param('delete', null, PARAM_RAW);
@@ -138,8 +137,6 @@ if (isset($form) && 3 === $viewPage) {
     }
 }
 
-//$PAGE->requires->js_init_code('window.alert("HEY1")');
-
-//$PAGE->requires->js_init_call('M.block_sms77.init', [$viewPage]);
+$PAGE->requires->js_init_call('M.block_sms77.init', [$viewPage], true);
 
 echo $OUTPUT->footer();

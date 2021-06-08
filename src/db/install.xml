@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<XMLDB PATH="blocks/sms77/db" VERSION="20201021" COMMENT="XMLDB file for Moodle blocks/sms77"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<XMLDB xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" PATH="blocks/sms77/db" VERSION="20201021"
+       COMMENT="XMLDB file for Moodle blocks/sms77"
        xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd">
     <TABLES>
         <TABLE NAME="block_sms77" COMMENT="block_sms77 table retrofitted from MySQL" NEXT="block_sms77_template">

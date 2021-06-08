@@ -1,36 +1,6 @@
-<?php
+<?php require_once '../../config.php';
 
-require_once $_SERVER['DOCUMENT_ROOT'] . '/config.php';
-
-/*if (!isset($CFG)) {
-    $basePath = realpath('');
-
-    $path = $basePath . '/../config.php';
-
-    if (!file_exists($path)) {
-        $path = $basePath . '/../../config.php';
-    }
-
-    if (!file_exists($path)) {
-        $path = $basePath . '/../../../config.php';
-    }
-
-    if (!file_exists($path)) {
-        $path = $basePath . '/config.php';
-    }
-
-    if (!file_exists($path)) {
-        $path = './config.php';
-    }
-
-    if (is_link($path)) {
-        $path = readlink($path);
-    }
-
-    require_once $path;
-}*/
-
-function sms77_msg_defaults($to, $text) {
+function sms77_msg_defaults($to, $text, $from) {
     global $CFG;
 
     if (is_array($to)) {
@@ -38,12 +8,14 @@ function sms77_msg_defaults($to, $text) {
     }
 
     $text = urlencode($text);
+    $from = $CFG->$from;
 
-    return "to=$to&text=$text&from=$CFG->block_sms77_from";
+    return "to=$to&text=$text&from=$from&json=1";
 }
 
 function sms77_send_sms($recipients, $text) {
-    return sms77_api_post('sms', sms77_msg_defaults($recipients, $text) . "&json=1");
+    return sms77_api_post('sms',
+        sms77_msg_defaults($recipients, $text, 'block_sms77_sms_from'));
 }
 
 function sms77_send_voice($recipients, $text) {
@@ -51,7 +23,7 @@ function sms77_send_voice($recipients, $text) {
 
     foreach ($recipients as $recipient) {
         $results[] = sms77_api_post(
-            'voice', sms77_msg_defaults($recipient, $text));
+            'voice', sms77_msg_defaults($recipient, $text, 'block_sms77_voice_from'));
     }
 
     return json_encode($results);
@@ -62,12 +34,13 @@ function sms77_api_post($endpoint, $params) {
 
     $ch = curl_init("https://gateway.sms77.io/api/$endpoint");
     curl_setopt($ch, CURLOPT_POST, 1);
-    curl_setopt($ch, CURLOPT_POSTFIELDS,
-        "p=$CFG->block_sms77_apikey&sentWith=moodle&$params");
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
     curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
-    $output = curl_exec($ch);
+    curl_setopt($ch, CURLOPT_HTTPHEADER,
+        ['sentWith: moodle', "X-Api-Key: $CFG->block_sms77_apikey"]);
+    $res = curl_exec($ch);
     curl_close($ch);
 
-    return $output;
+    return $res;
 }

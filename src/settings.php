@@ -1,19 +1,21 @@
-<?php
+<?php defined('MOODLE_INTERNAL') || die;
 
-defined('MOODLE_INTERNAL') || die;
-
-$createAdminSetting = static function ($name, $identifier, $description, $defaultValue) {
-    return new admin_setting_configtext(
-        $name,
-        get_string($identifier, 'block_sms77'),
-        get_string($description, 'block_sms77'),
-        $defaultValue,
-        PARAM_TEXT);
-};
+global $ADMIN;
 
 if ($ADMIN->fulltree) {
-    $settings->add(
-        $createAdminSetting('block_sms77_apikey', 'api_key', 'api_key_desc', ''));
-    $settings->add(
-        $createAdminSetting('block_sms77_from', 'from', 'from_desc', 'Moodle'));
+    $settings->add(new admin_setting_configtext('block_sms77_apikey',
+        get_string('api_key', 'block_sms77'),
+        get_string('api_key_desc', 'block_sms77'),
+        '',
+        PARAM_TEXT));
+    $settings->add(new admin_setting_configtext('block_sms77_sms_from',
+        get_string('from_sms', 'block_sms77'),
+        get_string('from_sms_desc', 'block_sms77'),
+        'Moodle',
+        PARAM_TEXT));
+    $settings->add(new admin_setting_configtext('block_sms77_voice_from',
+        get_string('from_voice', 'block_sms77'),
+        get_string('from_voice_desc', 'block_sms77'),
+        '+491771783130',
+        PARAM_TEXT));
 }
