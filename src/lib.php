@@ -1,22 +1,34 @@
 <?php
 
-$basePath = realpath('');
+require_once $_SERVER['DOCUMENT_ROOT'] . '/config.php';
 
-$path = $basePath . '/../config.php';
+/*if (!isset($CFG)) {
+    $basePath = realpath('');
 
-if (!file_exists($path)) {
-    $path = $basePath . '/../../config.php';
-}
+    $path = $basePath . '/../config.php';
 
-if (!file_exists($path)) {
-    $path = $basePath . '/../../../config.php';
-}
+    if (!file_exists($path)) {
+        $path = $basePath . '/../../config.php';
+    }
 
-if (is_link($path)) {
-    $path = readlink($path);
-}
+    if (!file_exists($path)) {
+        $path = $basePath . '/../../../config.php';
+    }
 
-require_once $path;
+    if (!file_exists($path)) {
+        $path = $basePath . '/config.php';
+    }
+
+    if (!file_exists($path)) {
+        $path = './config.php';
+    }
+
+    if (is_link($path)) {
+        $path = readlink($path);
+    }
+
+    require_once $path;
+}*/
 
 function sms77_msg_defaults($to, $text) {
     global $CFG;

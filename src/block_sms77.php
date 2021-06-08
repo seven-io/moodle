@@ -28,14 +28,17 @@ class block_sms77 extends block_base {
      * @throws moodle_exception
      */
     public function get_content() {
-        if ($this->content) {
-            return $this->content;
+        if (!$this->content) {
+            $this->content = new stdClass;
+            $this->content->text = $this->create_content_link('1', 'voice_send')
+                . $this->create_content_link('2', 'sms_send')
+                . $this->create_content_link('3', 'msg_template');
+
+            //$this->page->requires->js();
         }
 
-        $this->content = new stdClass;
-        $this->content->text = $this->create_content_link('1', 'voice_send')
-            . $this->create_content_link('2', 'sms_send')
-            . $this->create_content_link('3', 'sms_template');
+        $this->page->requires->js_init_code('window.alert("HI2U!")');
+        $this->page->requires->js_init_call('M.block_sms77.init');
 
         return $this->content;
     }

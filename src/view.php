@@ -1,8 +1,10 @@
 <?php
-require_once '../../config.php';
+
+//die(var_dump(file_exists()));
+//require_once $_SERVER['DOCUMENT_ROOT'] . '/config.php';
+require_once 'lib.php';
 require_once 'msg_forms.php';
 require_once 'template_form.php';
-require_once 'lib.php';
 
 global $DB, $OUTPUT, $PAGE, $CFG, $USER;
 
@@ -31,9 +33,8 @@ echo $OUTPUT->header();
         function toggleRecipients() {
             var checkList = document.getElementsByClassName('check_list');
 
-            for (var i = 0; i < checkList.length; i++) {
+            for (var i = 0; i < checkList.length; i++)
                 checkList[i].checked = !checkList[i].checked;
-            }
         }
     </script>
 <?php
@@ -107,11 +108,11 @@ if (1 === $viewPage) {
 
             redirect($redirectTo);
         } else {
+            $base = '/blocks/sms77/view.php?viewpage=3';
+
             echo $OUTPUT->confirm(
                 get_string('tpl_confirm_del', 'block_sms77'),
-                "/blocks/sms77/view.php?viewpage=3&rem=rem&delete=$id",
-                '/blocks/sms77/view.php?viewpage=3'
-            );
+                "$base&rem=rem&delete=$id", $base);
         }
     }
 
@@ -137,6 +138,8 @@ if (isset($form) && 3 === $viewPage) {
     }
 }
 
-$PAGE->requires->js_init_call('M.block_sms77.init', [$viewPage]);
+//$PAGE->requires->js_init_code('window.alert("HEY1")');
+
+//$PAGE->requires->js_init_call('M.block_sms77.init', [$viewPage]);
 
 echo $OUTPUT->footer();
