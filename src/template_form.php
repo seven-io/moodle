@@ -1,9 +1,7 @@
 <?php
-
 global $CFG, $PAGE;
 
 require_once "$CFG->libdir/formslib.php";
-require_once "lib.php";
 
 require_login();
 
@@ -70,7 +68,7 @@ class template_form extends moodleform {
         $editTrans = get_string('edit', 'block_sms77');
         $delTrans = get_string('delete', 'block_sms77');
 
-        $table = new html_table();
+        $table = new html_table;
         $table->align = ['center', 'left', 'left', 'center', 'center'];
         $table->attributes = ["class" => "display", "style" => "width: 100%;"];
         $table->head = [
@@ -84,12 +82,16 @@ class template_form extends moodleform {
 
         $i = 0;
         foreach ($DB->get_recordset_sql("SELECT * FROM {block_sms77_template}") as $log) {
+            $edit = $OUTPUT->image_url('t/edit');
+            $delete = $OUTPUT->image_url('t/delete');
+            $prefix = "$CFG->wwwroot/blocks/sms77/view.php?viewpage=3&";
+
             $row = [];
             $row[] = ++$i;
             $row[] = $log->tname;
             $row[] = $log->template;
-            $row[] = "<a title='$editTrans' href='$CFG->wwwroot/blocks/sms77/view.php?viewpage=3&edit=edit&id=$log->id' /><img alt='$editTrans' src='" . $OUTPUT->image_url('t/edit') . "' class='iconsmall' /></a>";
-            $row[] = "<a title='$delTrans' href='$CFG->wwwroot/blocks/sms77/view.php?viewpage=3&rem=remove&id=$log->id' /><img alt='$delTrans' src='" . $OUTPUT->image_url('t/delete') . "' class='iconsmall' /></a>";
+            $row[] = "<a title='$editTrans' href='{$prefix}edit=edit&id=$log->id'><img alt='$editTrans' src='$edit' class='iconsmall' /></a>";
+            $row[] = "<a title='$delTrans' href='{$prefix}rem=remove&id=$log->id'><img alt='$delTrans' src='$delete' class='iconsmall' /></a>";
             $table->data[] = $row;
         }
 

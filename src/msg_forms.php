@@ -1,9 +1,8 @@
 <?php
+require_once __DIR__ . '/../../config.php';
+require_once "$CFG->libdir/formslib.php";
 
 global $DB, $CFG, $PAGE;
-
-require_once "$CFG->libdir/formslib.php";
-require_once 'lib.php';
 
 require_login();
 
@@ -82,19 +81,19 @@ class msg_send extends moodleform {
             $r_id = 3; // role = editingteacher
         }
 
-        $sql = "SELECT usr.firstname, usr.id, usr.lastname, usr.email,usr.phone2,c.fullname
+        $sql = "SELECT u.firstname, u.id, u.lastname, u.email, u.phone2, c.fullname
             FROM {course} c
             INNER JOIN context cx ON c.id = cx.instanceid
             AND cx.contextlevel = '50' and c.id=$c_id
             INNER JOIN role_assignments ra ON cx.id = ra.contextid
             INNER JOIN role r ON ra.roleid = r.id
-            INNER JOIN user usr ON ra.userid = usr.id
+            INNER JOIN user u ON ra.userid = u.id
             WHERE r.id = $r_id";
-        $count = $DB->record_exists_sql($sql, [null]);
+        $count = $DB->record_exists_sql($sql);
         if ($count >= 1) {
             $table->align = ['center', 'left', 'center', 'center'];
             $table->head = [
-                get_string('serial_no', 'block_sms77'),
+                get_string('id', 'block_sms77'),
                 get_string('name', 'block_sms77'),
                 get_string('cell_no', 'block_sms77'),
                 "<a href='javascript:toggleRecipients()' style='color: #333;'>"
@@ -109,12 +108,11 @@ class msg_send extends moodleform {
                 }
 
                 $row = [];
-                $row[] = ++$i;
-                $row[] = $log->firstname;
+                $row[] = $log->id;
+                $row[] = "$log->firstname $log->lastname";
                 $row[] = $log->phone2;
-                $row[] = "<input
-                            style='width: 20px; height: 30px;' type='checkbox' 
-                            class='check_list' name='user[]' value='$log->id' />";
+                $row[] = "<input type='checkbox' name='user[]' value='$log->id'
+                            class='check_list form-control' />";
                 $table->data[] = $row;
             }
         } else {

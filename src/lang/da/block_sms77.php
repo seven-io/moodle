@@ -11,6 +11,7 @@ $string['from_sms'] = 'Afsender (SMS)';
 $string['from_sms_desc'] = 'Maks 16 numeriske oder 11 alfanumeriske tegn';
 $string['from_voice'] = 'Afsender (Voicemail)';
 $string['from_voice_desc'] = 'Skal være et verificeret eller delt nummer';
+$string['id'] = 'ID';
 $string['moodleuser'] = 'Brugernavn';
 $string['msg'] = 'Besked';
 $string['msg_body'] = 'Besked';

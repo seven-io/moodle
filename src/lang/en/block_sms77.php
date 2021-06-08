@@ -14,6 +14,7 @@ $string['from_sms'] = 'From (SMS)';
 $string['from_sms_desc'] = 'Max 16 numeric or 11 alphanumeric characters';
 $string['from_voice'] = 'From (voice)';
 $string['from_voice_desc'] = 'Must be verified or a shared virtual number';
+$string['id'] = 'ID';
 $string['moodleuser'] = 'Username';
 $string['msg'] = 'Message';
 $string['msg_body'] = 'Message Body';

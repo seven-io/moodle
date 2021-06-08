@@ -11,6 +11,7 @@ $string['from_sms'] = 'Absender (SMS)';
 $string['from_sms_desc'] = 'Maximal 16 numerische oder 11 alphanumerische Zeichen';
 $string['from_voice'] = 'Absender (Sprachnachricht)';
 $string['from_voice_desc'] = 'Muss eine verifizierte oder geteilte Rufnummer sein';
+$string['id'] = 'ID';
 $string['moodleuser'] = 'Benutzername';
 $string['msg'] = 'Nachricht';
 $string['msg_body'] = 'Nachrichteninhalt';
