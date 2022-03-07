@@ -1,6 +1,10 @@
 <?php
 $string['api_key'] = 'API nøgle';
 $string['api_key_desc'] = 'Nødvendig for transport. Fås ved @ sms77.io.';
+
+$string['block_sms77'] = "sms77 Block";
+$string['block_sms77_apikey'] = "XXXXXXXXXXXXXX";
+
 $string['cell_no'] = 'Mobilnummer';
 $string['delete'] = 'Slet';
 $string['edit'] = 'Bearbejd';

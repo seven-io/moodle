@@ -2,6 +2,7 @@
 $string['api_key'] = 'API Key';
 $string['api_key_desc'] = 'Required for sending. Get yours @ sms77.io.';
 
+$string['block_sms77'] = "sms77 Block";
 $string['block_sms77_apikey'] = "XXXXXXXXXXXXXX";
 
 $string['cell_no'] = 'Mobile Number';

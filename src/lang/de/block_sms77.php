@@ -1,6 +1,10 @@
 <?php
 $string['api_key'] = 'API-Schlüssel';
 $string['api_key_desc'] = 'Erforderlich für Versand. Erhältlich bei @ sms77.io.';
+
+$string['block_sms77'] = "sms77 Block";
+$string['block_sms77_apikey'] = "XXXXXXXXXXXXXX";
+
 $string['cell_no'] = 'Handynummer';
 $string['delete'] = 'Löschen';
 $string['edit'] = 'Bearbeiten';
