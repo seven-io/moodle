@@ -81,11 +81,11 @@ class msg_send extends moodleform {
 
         $sql = "SELECT u.firstname, u.id, u.lastname, u.email, u.phone2, c.fullname
             FROM {course} c
-            INNER JOIN context cx ON c.id = cx.instanceid
+            INNER JOIN {context} cx ON c.id = cx.instanceid
             AND cx.contextlevel = '50' and c.id=$c_id
-            INNER JOIN role_assignments ra ON cx.id = ra.contextid
-            INNER JOIN role r ON ra.roleid = r.id
-            INNER JOIN user u ON ra.userid = u.id
+            INNER JOIN {role_assignments} ra ON cx.id = ra.contextid
+            INNER JOIN {role} r ON ra.roleid = r.id
+            INNER JOIN {user} u ON ra.userid = u.id
             WHERE r.id = $r_id";
         $count = $DB->record_exists_sql($sql);
         if ($count >= 1) {
