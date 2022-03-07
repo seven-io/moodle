@@ -1,4 +1,4 @@
-![Sms77.io Logo](https://www.sms77.io/wp-content/uploads/2019/07/sms77-Logo-400x79.png "Sms77.io Logo")
+![](https://www.sms77.io/wp-content/uploads/2019/07/sms77-Logo-400x79.png "sms77 Logo")
 
 # SMS & Text2Voice Notification Block for Moodle
 
@@ -26,6 +26,6 @@ Reference the following user columns by wrapping them into double curly brackets
 
 #### Support
 
-Need help? Feel free to send us an [contact us](https://www.sms77.io/en/company/contact).
+Need help? Feel free to [contact us](https://www.sms77.io/en/company/contact).
 
 [![MIT](https://img.shields.io/badge/License-MIT-teal.svg)](LICENSE)
