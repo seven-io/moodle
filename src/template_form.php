@@ -1,6 +1,4 @@
 <?php
-global $CFG, $PAGE;
-
 require_once "$CFG->libdir/formslib.php";
 
 require_login();

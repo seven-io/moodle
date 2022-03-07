@@ -1,7 +1,5 @@
 <?php defined('MOODLE_INTERNAL') || die;
 
-global $ADMIN;
-
 if ($ADMIN->fulltree) {
     $settings->add(new admin_setting_configtext('block_sms77_apikey',
         get_string('api_key', 'block_sms77'),

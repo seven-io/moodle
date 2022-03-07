@@ -1,7 +1,5 @@
 <?php require_once '../../config.php';
 
-global $DB;
-
 $msg_id = required_param('m_id', PARAM_INT);
 
 if ($msg_id) {

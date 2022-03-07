@@ -2,8 +2,6 @@
 require_once 'msg_forms.php';
 require_once 'template_form.php';
 
-global $DB, $OUTPUT, $PAGE, $CFG, $USER;
-
 require_login();
 
 $viewPage = (int)required_param('viewpage', PARAM_INT);

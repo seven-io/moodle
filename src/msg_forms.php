@@ -2,8 +2,6 @@
 require_once __DIR__ . '/../../config.php';
 require_once "$CFG->libdir/formslib.php";
 
-global $DB, $CFG, $PAGE;
-
 require_login();
 
 $PAGE->set_context(context_system::instance());
