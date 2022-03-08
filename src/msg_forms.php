@@ -79,10 +79,10 @@ class msg_send extends moodleform {
             $r_id = 3; // role = editingteacher
         }
 
-        $sql = "SELECT u.firstname, u.id, u.lastname, u.email, u.phone2, c.fullname
+        $sql = "SELECT u.firstname, u.id, u.lastname, u.email, u.phone1, u.phone2, c.fullname
             FROM {course} c
             INNER JOIN {context} cx ON c.id = cx.instanceid
-            AND cx.contextlevel = '50' and c.id=$c_id
+            AND cx.contextlevel = '50' and c.id = $c_id
             INNER JOIN {role_assignments} ra ON cx.id = ra.contextid
             INNER JOIN {role} r ON ra.roleid = r.id
             INNER JOIN {user} u ON ra.userid = u.id
@@ -94,23 +94,24 @@ class msg_send extends moodleform {
                 get_string('id', 'block_sms77'),
                 get_string('name', 'block_sms77'),
                 get_string('cell_no', 'block_sms77'),
-                "<a href='javascript:toggleRecipients()' style='color: #333;'>"
-                . get_string('toggle_all', 'block_sms77') . "</a>",
+                '<a href=\'javascript:toggleRecipients()\' style=\'color: #333;\'>'
+                . get_string('toggle_all', 'block_sms77') . '</a>',
             ];
             $table->size = ['10%', '20%', '20%', '20%'];
 
             $i = 0;
             foreach ($DB->get_recordset_sql($sql) as $log) {
-                if (empty($log->phone2)) {
-                    continue;
-                }
+                $phone = null;
+                if (!empty($log->phone2)) $phone = $log->phone2;
+                elseif (!empty($log->phone1)) $phone = $log->phone1;
+                if (!$phone) continue;
 
                 $row = [];
                 $row[] = $log->id;
-                $row[] = "$log->firstname $log->lastname";
-                $row[] = $log->phone2;
-                $row[] = "<input type='checkbox' name='user[]' value='$log->id'
-                            class='check_list form-control' />";
+                $row[] = $log->firstname . ' ' . $log->lastname;
+                $row[] = $log->$phone;
+                $row[] = "<input class='check_list form-control' name='user[]' 
+                    type='checkbox'  value='$log->id' />";
                 $table->data[] = $row;
             }
         } else {
