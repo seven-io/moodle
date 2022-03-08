@@ -1,5 +1,5 @@
 <?php
-require_once "$CFG->libdir/formslib.php";
+require_once $CFG->libdir . '/formslib.php';
 
 require_login();
 
@@ -48,11 +48,10 @@ class template_form extends moodleform {
         $errors = [];
 
         if ('' === $data['tname']) {
-            $errors['tname'] = "Missing template name!";
+            $errors['tname'] = get_string('missing_template_name', 'block_sms77');
 
-            if ($DB->record_exists('block_sms77_template', ['tname' => $data['tname']])) {
+            if ($DB->record_exists('block_sms77_template', ['tname' => $data['tname']]))
                 $errors['template'] = 'Template Name exists already!';
-            }
 
             return $errors;
         }
@@ -68,7 +67,7 @@ class template_form extends moodleform {
 
         $table = new html_table;
         $table->align = ['center', 'left', 'left', 'center', 'center'];
-        $table->attributes = ["class" => "display", "style" => "width: 100%;"];
+        $table->attributes = ['class' => 'display', 'style' => 'width: 100%;'];
         $table->head = [
             get_string('serial_no', 'block_sms77'),
             get_string('name', 'block_sms77'),
@@ -79,17 +78,22 @@ class template_form extends moodleform {
         $table->size = ['10%', '20%', '50%', '10%', '10%'];
 
         $i = 0;
-        foreach ($DB->get_recordset_sql("SELECT * FROM {block_sms77_template}") as $log) {
-            $edit = $OUTPUT->image_url('t/edit');
-            $delete = $OUTPUT->image_url('t/delete');
-            $prefix = "$CFG->wwwroot/blocks/sms77/view.php?viewpage=3&";
+        foreach ($DB->get_recordset_sql('SELECT * FROM {block_sms77_template}') as $log) {
+            $urlFn = method_exists($OUTPUT, 'image_url') ? 'image_url' : 'pix_url';
+            $edit = $OUTPUT->$urlFn('t/edit');
+            $delete = $OUTPUT->$urlFn('t/delete');
+            $prefix = $CFG->wwwroot . '/blocks/sms77/view.php?viewpage=3&';
 
             $row = [];
             $row[] = ++$i;
             $row[] = $log->tname;
             $row[] = $log->template;
-            $row[] = "<a title='$editTrans' href='{$prefix}edit=edit&id=$log->id'><img alt='$editTrans' src='$edit' class='iconsmall' /></a>";
-            $row[] = "<a title='$delTrans' href='{$prefix}rem=remove&id=$log->id'><img alt='$delTrans' src='$delete' class='iconsmall' /></a>";
+            $row[] = sprintf('<a title=\'%s\' href=\'%sedit=edit&id=%s\'>
+                <img alt=\'%s\' src=\'%s\' class=\'iconsmall\' /></a>',
+                $editTrans, $prefix, $log->id, $editTrans, $edit);
+            $row[] = sprintf('<a title=\'%s\' href=\'%srem=remove&id=%s\'>
+                <img alt=\'%s\' src=\'%s\' class=\'iconsmall\' /></a>',
+                $delTrans, $prefix, $log->id, $delTrans, $delete);
             $table->data[] = $row;
         }
 

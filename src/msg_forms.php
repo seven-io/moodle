@@ -1,6 +1,6 @@
 <?php
 require_once __DIR__ . '/../../config.php';
-require_once "$CFG->libdir/formslib.php";
+require_once $CFG->libdir . '/formslib.php';
 
 require_login();
 
@@ -20,9 +20,7 @@ class msg_send extends moodleform {
             'header', static::$_header, get_string(static::$_header, 'block_sms77'));
 
         $sql = 'SELECT id, fullname FROM {course}';
-        if (null !== $cid) {
-            $sql .= ' WHERE id = ?';
-        }
+        if (null !== $cid) $sql .= ' WHERE id = ?';
         $attributes = $DB->get_records_sql_menu($sql, [$cid]);
 
         $mform->addElement(
@@ -39,7 +37,7 @@ class msg_send extends moodleform {
         $mform->addElement('selectwithlink', 'm_id',
             get_string('msg_select', 'block_sms77'), $DB->get_records_sql_menu(
                 'SELECT id, tname FROM {block_sms77_template}'), null,
-            ['link' => "$CFG->wwwroot/blocks/sms77/view.php?viewpage=3",
+            ['link' => $CFG->wwwroot . '/blocks/sms77/view.php?viewpage=3',
                 'label' => get_string('template', 'block_sms77')]);
 
         $mform->addElement('textarea', 'msg_body', get_string('msg_body', 'block_sms77'),
@@ -50,7 +48,7 @@ class msg_send extends moodleform {
         $mform->setType('msg_body', PARAM_TEXT);
 
         $mform->addElement('html',
-            '<img src="loading.gif" id="load" style="margin-left: 6cm;" />');
+            '<img src=\'loading.gif\' id=\'load\' style=\'margin-left: 6cm;\' />');
 
         $mform->addElement('hidden', 'viewpage', static::$_viewpage);
         $mform->setType('viewpage', PARAM_INT);
@@ -79,14 +77,14 @@ class msg_send extends moodleform {
             $r_id = 3; // role = editingteacher
         }
 
-        $sql = "SELECT u.firstname, u.id, u.lastname, u.email, u.phone1, u.phone2, c.fullname
+        $sql = sprintf('SELECT u.firstname, u.id, u.lastname, u.email, u.phone1, u.phone2, c.fullname
             FROM {course} c
             INNER JOIN {context} cx ON c.id = cx.instanceid
-            AND cx.contextlevel = '50' and c.id = $c_id
+            AND cx.contextlevel = \'50\' and c.id = %s 
             INNER JOIN {role_assignments} ra ON cx.id = ra.contextid
             INNER JOIN {role} r ON ra.roleid = r.id
             INNER JOIN {user} u ON ra.userid = u.id
-            WHERE r.id = $r_id";
+            WHERE r.id = %s', $c_id, $r_id);
         $count = $DB->record_exists_sql($sql);
         if ($count >= 1) {
             $table->align = ['center', 'left', 'center', 'center'];
@@ -99,7 +97,6 @@ class msg_send extends moodleform {
             ];
             $table->size = ['10%', '20%', '20%', '20%'];
 
-            $i = 0;
             foreach ($DB->get_recordset_sql($sql) as $log) {
                 $phone = null;
                 if (!empty($log->phone2)) $phone = $log->phone2;
@@ -109,17 +106,17 @@ class msg_send extends moodleform {
                 $row = [];
                 $row[] = $log->id;
                 $row[] = $log->firstname . ' ' . $log->lastname;
-                $row[] = $log->$phone;
-                $row[] = "<input class='check_list form-control' name='user[]' 
-                    type='checkbox'  value='$log->id' />";
+                $row[] = $phone;
+                $row[] = sprintf('<input class=\'check_list form-control\' name=\'user[]\' 
+                    type=\'checkbox\'  value=\'%s\' />', $log->id);
                 $table->data[] = $row;
             }
         } else {
-            $table->data[] = ["<div style='margin: 10px 0; padding:15px 10px 15px 50px;
+            $table->data[] = ['<div style=\'margin: 10px 0; padding:15px 10px 15px 50px;
                         background-repeat: no-repeat; background-position: 10px center; 
                         color: #00529B; background-image: url(info.png); 
-                        background-color: #BDE5F8; border: 1px solid #3b8eb5;'>"
-                . get_string('record_not_found', 'block_sms77') . "</div>"];
+                        background-color: #BDE5F8; border: 1px solid #3b8eb5;\'>'
+                . get_string('record_not_found', 'block_sms77') . '</div>'];
         }
 
         return $table;

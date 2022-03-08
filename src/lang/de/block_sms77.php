@@ -2,8 +2,11 @@
 $string['api_key'] = 'API-Schlüssel';
 $string['api_key_desc'] = 'Erforderlich für Versand. Erhältlich bei @ sms77.io.';
 
-$string['block_sms77'] = "sms77 Block";
-$string['block_sms77_apikey'] = "XXXXXXXXXXXXXX";
+$string['block_sms77'] = 'sms77 Block';
+$string['block_sms77_apikey'] = 'XXXXXXXXXXXXXX';
+$string['no_phone_users_found'] = 'Keiner Nutzer mit Telefonnummer gefunden.';
+$string['no_user_selected'] = 'Es wurde kein Nutzer ausgewählt.';
+$string['missing_template_name'] = 'Fehlender Vorlagenname!';
 
 $string['cell_no'] = 'Handynummer';
 $string['delete'] = 'Löschen';

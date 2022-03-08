@@ -2,8 +2,11 @@
 $string['api_key'] = 'API Key';
 $string['api_key_desc'] = 'Required for sending. Get yours @ sms77.io.';
 
-$string['block_sms77'] = "sms77 Block";
-$string['block_sms77_apikey'] = "XXXXXXXXXXXXXX";
+$string['block_sms77'] = 'sms77 Block';
+$string['block_sms77_apikey'] = 'XXXXXXXXXXXXXX';
+$string['no_phone_users_found'] = 'No users with phone number found.';
+$string['no_user_selected'] = 'You did not select any user.';
+$string['missing_template_name'] = 'Missing template name!';
 
 $string['cell_no'] = 'Mobile Number';
 $string['delete'] = 'Delete';

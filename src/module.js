@@ -28,7 +28,7 @@ M.block_sms77 = {
                     },
                     start: function () {
                         sms77SetUserList(
-                            '<img src="loading.gif" style="margin-left: 6cm;" />');
+                            '<img alt=\'\' src=\'loading.gif\' style=\'margin-left: 6cm;\' />');
                     }
                 }
             });

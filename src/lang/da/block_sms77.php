@@ -2,8 +2,11 @@
 $string['api_key'] = 'API nøgle';
 $string['api_key_desc'] = 'Nødvendig for transport. Fås ved @ sms77.io.';
 
-$string['block_sms77'] = "sms77 Block";
-$string['block_sms77_apikey'] = "XXXXXXXXXXXXXX";
+$string['block_sms77'] = 'sms77 Block';
+$string['block_sms77_apikey'] = 'XXXXXXXXXXXXXX';
+$string['no_phone_users_found'] = 'Ingen brugere med telefonnummer fundet.';
+$string['no_user_selected'] = 'Ingen bruger selected.';
+$string['missing_template_name'] = 'Mangler skabelon navn!';
 
 $string['cell_no'] = 'Mobilnummer';
 $string['delete'] = 'Slet';

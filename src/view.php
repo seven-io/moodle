@@ -6,15 +6,11 @@ require_login();
 
 $viewPage = (int)required_param('viewpage', PARAM_INT);
 $templateId = optional_param('id', null, PARAM_INT);
-$redirectTo = new moodle_url("/blocks/sms77/view.php?viewpage=$viewPage");
+$redirectTo = new moodle_url('/blocks/sms77/view.php?viewpage=' . $viewPage);
 
-if (1 === $viewPage) {
-    $heading = 'voice_notifications';
-} elseif (2 === $viewPage) {
-    $heading = 'sms_notifications';
-} else {
-    $heading = 'msg_templates';
-}
+if (1 === $viewPage) $heading = 'voice_notifications';
+elseif (2 === $viewPage) $heading = 'sms_notifications';
+else $heading = 'msg_templates';
 
 $PAGE->set_pagelayout('standard');
 $PAGE->set_title('Sms77');
@@ -23,30 +19,29 @@ $PAGE->set_url($redirectTo);
 
 echo $OUTPUT->header();
 
-if (1 === $viewPage) {
-    sms77MsgViewHandler(new voice_send, 'submit_send_voice',
-        static function ($users, $text) {
-            $results = [];
-
-            foreach ($users as $user) {
-                $results[] = sms77ApiPost('voice', sms77MsgDefaults($user->phone2,
-                    sms77ReplacePlaceholders($user, $text), 'block_sms77_voice_from'));
-            }
-
-            return $results;
-        });
-} elseif (2 === $viewPage) {
-    sms77MsgViewHandler(new sms_send, 'submit_send_sms', static function ($users, $text) {
+if (1 === $viewPage) sms77MsgViewHandler(new voice_send, 'submit_send_voice',
+    static function ($users, $text) {
         $results = [];
 
         foreach ($users as $user) {
-            $results[] = sms77ApiPost('sms', sms77MsgDefaults($user->phone2,
-                sms77ReplacePlaceholders($user, $text), 'block_sms77_sms_from'));
+            $results[] = sms77ApiPost('voice', sms77MsgDefaults($user->phone2,
+                sms77ReplacePlaceholders($user, $text), 'block_sms77_voice_from'));
         }
 
         return $results;
     });
-} else if (3 === $viewPage) {
+elseif (2 === $viewPage) sms77MsgViewHandler(
+    new sms_send, 'submit_send_sms', static function ($users, $text) {
+    $results = [];
+
+    foreach ($users as $user) {
+        $results[] = sms77ApiPost('sms', sms77MsgDefaults($user->phone2,
+            sms77ReplacePlaceholders($user, $text), 'block_sms77_sms_from'));
+    }
+
+    return $results;
+});
+elseif (3 === $viewPage) {
     $form = new template_form;
 
     if (optional_param('rem', null, PARAM_RAW)) {
@@ -61,7 +56,7 @@ if (1 === $viewPage) {
 
             echo $OUTPUT->confirm(
                 get_string('tpl_confirm_del', 'block_sms77'),
-                "$base&rem=rem&delete=$templateId", $base);
+                $base . '&rem=rem&delete=' . $templateId, $base);
         }
     }
 
@@ -100,36 +95,34 @@ function sms77MsgViewHandler($form, $submitId, $apiAction) {
     $table = html_writer::table($form->display_report());
     $submitText = get_string('send', 'block_sms77');
 
-    echo "<form method='post'>
-            <div id='table-change'>$table</div>
+    echo sprintf('<form method=\'post\'>
+            <div id=\'table-change\'>%s</div>
 
             <input 
-                id='$submitId' 
-                name='submit' 
-                style='margin-left: 700px'
-                type='submit' 
-                value='$submitText'
+                id=\'%s\' 
+                name=\'submit\' 
+                style=\'margin-left: 700px\'
+                type=\'submit\' 
+                value=\'%s\'
              />
 
-            <input type='hidden' name='viewpage' id='viewpage' value='$viewPage' />
+            <input type=\'hidden\' name=\'viewpage\' id=\'viewpage\' value=\'%s\' />
          </form>
          <script>
-         function toggleRecipients() {
-            var checkList = document.getElementsByClassName('check_list');
+             function toggleRecipients() {
+                var checkList = document.getElementsByClassName(\'check_list\');
+    
+                for (var i = 0; i < checkList.length; i++) 
+                    checkList[i].checked = !checkList[i].checked;
+            }
+        </script>
+         ', $table, $submitId, $submitText, $viewPage);
 
-            for (var i = 0; i < checkList.length; i++)
-                checkList[i].checked = !checkList[i].checked;
-        }
-</script>
-         ";
+    if (!isset($_REQUEST['submit'])) return;
 
-    if (!isset($_REQUEST['submit'])) {
-        return;
-    }
-
-    $user = $_REQUEST['user']; // User IDs
-    if ('' === $user) {
-        echo '<p>You did not select any user.</p>';
+    $userIds = $_REQUEST['user']; // array of user IDs
+    if (empty($userIds)) {
+        echo '<p>' . get_string('no_user_selected', 'block_sms77') . '</p>';
         return;
     }
 
@@ -145,49 +138,50 @@ function sms77MsgViewHandler($form, $submitId, $apiAction) {
     $table->size = ['10%', '40%', '30%', '20%'];
 
     $users = [];
-    $userCount = count($user);
-    for ($i = 0; $i < $userCount; $i++) {
-        $user = $DB->get_record_sql('SELECT * FROM {user} u WHERE u.id = ?', [$user[$i]]);
+    foreach ($userIds as $userId) {
+        $user = $DB->get_record_sql('SELECT * FROM {user} u WHERE u.id = ?', [$userId]);
+        $phone = null;
+        if (!empty($user->phone2)) $phone = $user->phone2;
+        elseif (!empty($user->phone1)) $phone = $user->phone1;
 
-        if (empty($user->phone2)) {
-            continue;
-        }
+        if (!$phone) continue;
 
         $users[] = $user;
     }
 
     if (empty($users)) {
-        echo '<p>No users with phone number found.</p>';
+        echo '<p>' . get_string('no_phone_users_found', 'block_sms77') . '</p>';
         return;
     }
 
     $res = json_encode($apiAction($users, $_REQUEST['msg']));
-    echo "<script>window.alert(JSON.stringify($res, null, 2))</script>";
+    echo '<script>window.alert(JSON.stringify(' . $res . ', null, 2))</script>';
 }
 
 function sms77MsgDefaults($to, $text, $from) {
     global $CFG;
 
-    if (is_array($to)) {
-        $to = implode(',', $to);
-    }
+    if (is_array($to)) $to = implode(',', $to);
 
     $text = urlencode($text);
     $from = $CFG->$from;
 
-    return "to=$to&text=$text&from=$from&json=1";
+    return 'to=' . $to . '&text=' . $text . '&from=' . $from . '&json=1';
 }
 
 function sms77ApiPost($endpoint, $params) {
     global $CFG;
 
-    $ch = curl_init("https://gateway.sms77.io/api/$endpoint");
+    $ch = curl_init('https://gateway.sms77.io/api/' . $endpoint);
     curl_setopt($ch, CURLOPT_POST, 1);
     curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
     curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
     curl_setopt($ch, CURLOPT_HTTPHEADER,
-        ['sentWith: moodle', "X-Api-Key: $CFG->block_sms77_apikey"]);
+        [
+            'sentWith: moodle',
+            'X-Api-Key: ' . $CFG->block_sms77_apikey,
+        ]);
     $res = curl_exec($ch);
     curl_close($ch);
 
@@ -195,10 +189,21 @@ function sms77ApiPost($endpoint, $params) {
 }
 
 function sms77ReplacePlaceholders($user, $text) {
-    foreach (['username', 'firstname', 'lastname', 'email', 'phone1', 'phone2',
-                 'institution', 'department', 'address', 'city', 'country',] as $k) {
-        $text = str_replace("{{{$k}}}", $user->{$k}, $text);
-    }
+    $keys = [
+        'username',
+        'firstname',
+        'lastname',
+        'email',
+        'phone1',
+        'phone2',
+        'institution',
+        'department',
+        'address',
+        'city',
+        'country',
+    ];
+
+    foreach ($keys as $k) $text = str_replace('{{' . $k . '}}', $user->{$k}, $text);
 
     return $text;
 }

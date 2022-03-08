@@ -8,4 +8,4 @@ $report = (new sms_send)->display_report(
 $msg = addslashes((string)$_REQUEST['msg']);
 
 echo html_writer::table($report)
-    . "<input type='hidden' value='$msg' name='msg' />";
+    . '<input type=\'hidden\' value=\'' . $msg . '\' name=\'msg\' />';
