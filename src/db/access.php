@@ -3,7 +3,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 $capabilities = [
-    'block/sms77:myaddinstance' => [
+    'block/seven:myaddinstance' => [
         'archetypes' => [
             'user' => CAP_ALLOW,
         ],
@@ -12,7 +12,7 @@ $capabilities = [
         'contextlevel' => CONTEXT_COURSE,
     ],
 
-    'block/sms77:addinstance' => [
+    'block/seven:addinstance' => [
         'riskbitmask' => RISK_SPAM | RISK_XSS,
         'captype' => 'write',
         'contextlevel' => CONTEXT_BLOCK,
@@ -24,7 +24,7 @@ $capabilities = [
         'clonepermissionsfrom' => 'moodle/site:manageblocks',
     ],
 
-    'block/sms77:viewpages' => [
+    'block/seven:viewpages' => [
         'captype' => 'read',
         'contextlevel' => CONTEXT_COURSE,
         'legacy' => [
@@ -38,7 +38,7 @@ $capabilities = [
         ],
     ],
 
-    'block/sms77:managepages' => [
+    'block/seven:managepages' => [
         'captype' => 'read',
         'contextlevel' => CONTEXT_COURSE,
         'legacy' => [

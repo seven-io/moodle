@@ -1,9 +1,9 @@
 <?php
 $string['api_key'] = 'API nøgle';
-$string['api_key_desc'] = 'Nødvendig for transport. Fås ved @ sms77.io.';
+$string['api_key_desc'] = 'Nødvendig for transport. Fås ved @ seven.io.';
 
-$string['block_sms77'] = 'sms77 Block';
-$string['block_sms77_apikey'] = 'XXXXXXXXXXXXXX';
+$string['block_seven'] = 'seven Block';
+$string['block_seven_apikey'] = 'XXXXXXXXXXXXXX';
 $string['no_phone_users_found'] = 'Ingen brugere med telefonnummer fundet.';
 $string['no_user_selected'] = 'Ingen bruger selected.';
 $string['missing_template_name'] = 'Mangler skabelon navn!';
@@ -26,7 +26,7 @@ $string['msg_select'] = 'Vælg besked';
 $string['msg_template_header'] = 'Ny skabelon';
 $string['msg_write'] = 'Sæt indhold for besked';
 $string['name'] = 'Navn';
-$string['pluginname'] = 'Sms77';
+$string['pluginname'] = 'seven';
 $string['record_not_found'] = 'Ingen data fundet';
 $string['role_select'] = 'Vælg rolle';
 $string['select'] = 'Vælg';

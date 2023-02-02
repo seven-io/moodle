@@ -1,4 +1,4 @@
-M.block_sms77 = {
+M.block_seven = {
     init: function (Y, viewPage) {
         var loadUsers = Y.one('#load_user_list');
         var selectRole = Y.one('#id_r_id');
@@ -8,26 +8,26 @@ M.block_sms77 = {
         var img = Y.one('#load');
         var msgSend = Y.one(2 === viewPage ? '#submit_send_sms' : '#submit_send_voice');
 
-        sms77LoadMessage();
+        sevenLoadMessage();
 
         img.hide();
         msgSend.hide();
 
         loadUsers.on('click', function () {
             Y.io('user_list.php?msg='
-                + sms77GetMessageBody().get('value')
+                + sevenGetMessageBody().get('value')
                 + '&c_id='
                 + selectCourse.get('value')
                 + '&r_id='
                 + selectRole.get('value'), {
                 on: {
                     complete: function (id, e) {
-                        sms77SetUserList(e.responseText);
+                        sevenSetUserList(e.responseText);
 
                         msgSend.show();
                     },
                     start: function () {
-                        sms77SetUserList(
+                        sevenSetUserList(
                             '<img alt=\'\' src=\'loading.gif\' style=\'margin-left: 6cm;\' />');
                     }
                 }
@@ -35,12 +35,12 @@ M.block_sms77 = {
         });
 
         if (-1 !== [1, 2].indexOf(Number.parseInt(viewPage))) // send SMS or Voice
-            selectMsgTpl.on('change', sms77LoadMessage);
+            selectMsgTpl.on('change', sevenLoadMessage);
 
-        function sms77LoadMessage() {
-            var el = sms77GetMessageBody();
+        function sevenLoadMessage() {
+            var el = sevenGetMessageBody();
 
-            Y.io('load_message.php?m_id=' + sms77GetMessageTemplateId(), {
+            Y.io('load_message.php?m_id=' + sevenGetMessageTemplateId(), {
                 on: {
                     complete: function (id, e) {
                         img.hide();
@@ -57,15 +57,15 @@ M.block_sms77 = {
             });
         }
 
-        function sms77SetUserList(innerHTML) {
+        function sevenSetUserList(innerHTML) {
             userList.set('innerHTML', innerHTML);
         }
 
-        function sms77GetMessageTemplateId() {
+        function sevenGetMessageTemplateId() {
             return selectMsgTpl.get('value');
         }
 
-        function sms77GetMessageBody() {
+        function sevenGetMessageBody() {
             return Y.one('#id_msg_body');
         }
     }

@@ -1,9 +1,9 @@
 <?php
 $string['api_key'] = 'API-Schlüssel';
-$string['api_key_desc'] = 'Erforderlich für Versand. Erhältlich bei @ sms77.io.';
+$string['api_key_desc'] = 'Erforderlich für Versand. Erhältlich bei @ seven.io.';
 
-$string['block_sms77'] = 'sms77 Block';
-$string['block_sms77_apikey'] = 'XXXXXXXXXXXXXX';
+$string['block_seven'] = 'seven Block';
+$string['block_seven_apikey'] = 'XXXXXXXXXXXXXX';
 $string['no_phone_users_found'] = 'Keiner Nutzer mit Telefonnummer gefunden.';
 $string['no_user_selected'] = 'Es wurde kein Nutzer ausgewählt.';
 $string['missing_template_name'] = 'Fehlender Vorlagenname!';
@@ -26,7 +26,7 @@ $string['msg_select'] = 'Nachricht auswählen';
 $string['msg_template_header'] = 'Neue Vorlage';
 $string['msg_write'] = 'Nachrichteninhalt definieren';
 $string['name'] = 'Name';
-$string['pluginname'] = 'Sms77';
+$string['pluginname'] = 'seven';
 $string['record_not_found'] = 'Eintrag nicht gefunden';
 $string['role_select'] = 'Rolle auswählen';
 $string['select'] = 'Auswählen';

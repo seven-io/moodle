@@ -17,17 +17,17 @@ class msg_send extends moodleform {
 
         $mform =& $this->_form;
         $mform->addElement(
-            'header', static::$_header, get_string(static::$_header, 'block_sms77'));
+            'header', static::$_header, get_string(static::$_header, 'block_seven'));
 
         $sql = 'SELECT id, fullname FROM {course}';
         if (null !== $cid) $sql .= ' WHERE id = ?';
         $attributes = $DB->get_records_sql_menu($sql, [$cid]);
 
         $mform->addElement(
-            'select', 'c_id', get_string('select_course', 'block_sms77'), $attributes);
+            'select', 'c_id', get_string('select_course', 'block_seven'), $attributes);
         $mform->setType('c_id', PARAM_INT);
 
-        $mform->addElement('select', 'r_id', get_string('role_select', 'block_sms77'),
+        $mform->addElement('select', 'r_id', get_string('role_select', 'block_seven'),
             array_intersect($DB->get_records_sql_menu('SELECT id, shortname FROM {role}'),
                 null !== $cid ? $DB->get_records_sql_menu(
                     'SELECT id, level_name FROM {competency_level} WHERE id = ?',
@@ -35,15 +35,15 @@ class msg_send extends moodleform {
         $mform->setType('r_id', PARAM_INT);
 
         $mform->addElement('selectwithlink', 'm_id',
-            get_string('msg_select', 'block_sms77'), $DB->get_records_sql_menu(
-                'SELECT id, tname FROM {block_sms77_template}'), null,
-            ['link' => $CFG->wwwroot . '/blocks/sms77/view.php?viewpage=3',
-                'label' => get_string('template', 'block_sms77')]);
+            get_string('msg_select', 'block_seven'), $DB->get_records_sql_menu(
+                'SELECT id, tname FROM {block_seven_template}'), null,
+            ['link' => $CFG->wwwroot . '/blocks/seven/view.php?viewpage=3',
+                'label' => get_string('template', 'block_seven')]);
 
-        $mform->addElement('textarea', 'msg_body', get_string('msg_body', 'block_sms77'),
+        $mform->addElement('textarea', 'msg_body', get_string('msg_body', 'block_seven'),
             ['rows' => '6', 'cols' => '45']);
         $mform->addRule('msg_body',
-            get_string('msg_write', 'block_sms77'), 'required', 'client');
+            get_string('msg_write', 'block_seven'), 'required', 'client');
         $mform->addRule('msg_body', null, 'required');
         $mform->setType('msg_body', PARAM_TEXT);
 
@@ -57,7 +57,7 @@ class msg_send extends moodleform {
         $mform->setType('id', PARAM_INT);
 
         $mform->addElement('button', 'nextbtn',
-            get_string('show_users', 'block_sms77'), ['id' => 'load_user_list']);
+            get_string('show_users', 'block_seven'), ['id' => 'load_user_list']);
     }
 
     public function display_report($c_id = null, $r_id = null) {
@@ -89,11 +89,11 @@ class msg_send extends moodleform {
         if ($count >= 1) {
             $table->align = ['center', 'left', 'center', 'center'];
             $table->head = [
-                get_string('id', 'block_sms77'),
-                get_string('name', 'block_sms77'),
-                get_string('cell_no', 'block_sms77'),
+                get_string('id', 'block_seven'),
+                get_string('name', 'block_seven'),
+                get_string('cell_no', 'block_seven'),
                 '<a href=\'javascript:toggleRecipients()\' style=\'color: #333;\'>'
-                . get_string('toggle_all', 'block_sms77') . '</a>',
+                . get_string('toggle_all', 'block_seven') . '</a>',
             ];
             $table->size = ['10%', '20%', '20%', '20%'];
 
@@ -116,7 +116,7 @@ class msg_send extends moodleform {
                         background-repeat: no-repeat; background-position: 10px center; 
                         color: #00529B; background-image: url(info.png); 
                         background-color: #BDE5F8; border: 1px solid #3b8eb5;\'>'
-                . get_string('record_not_found', 'block_sms77') . '</div>'];
+                . get_string('record_not_found', 'block_seven') . '</div>'];
         }
 
         return $table;

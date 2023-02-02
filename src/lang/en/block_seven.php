@@ -1,9 +1,9 @@
 <?php
 $string['api_key'] = 'API Key';
-$string['api_key_desc'] = 'Required for sending. Get yours @ sms77.io.';
+$string['api_key_desc'] = 'Required for sending. Get yours @ seven.io.';
 
-$string['block_sms77'] = 'sms77 Block';
-$string['block_sms77_apikey'] = 'XXXXXXXXXXXXXX';
+$string['block_seven'] = 'seven Block';
+$string['block_seven_apikey'] = 'XXXXXXXXXXXXXX';
 $string['no_phone_users_found'] = 'No users with phone number found.';
 $string['no_user_selected'] = 'You did not select any user.';
 $string['missing_template_name'] = 'Missing template name!';
@@ -26,7 +26,7 @@ $string['msg_select'] = 'Select Message';
 $string['msg_template_header'] = 'New Template';
 $string['msg_write'] = 'Write message content';
 $string['name'] = 'Name';
-$string['pluginname'] = 'Sms77';
+$string['pluginname'] = 'seven';
 $string['record_not_found'] = 'Record not found';
 $string['role_select'] = 'Select Role';
 $string['select'] = 'Select';

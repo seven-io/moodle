@@ -1,11 +1,11 @@
 <?php
 
-class block_sms77 extends block_base {
+class block_seven extends block_base {
     /**
      * @return void
      */
     public function init() {
-        $this->title = 'Sms77';
+        $this->title = 'seven';
     }
 
     /**
@@ -33,8 +33,8 @@ class block_sms77 extends block_base {
      */
     private function create_content_link($viewpage, $identifier) {
         return html_writer::link(
-                new moodle_url('/blocks/sms77/view.php', ['viewpage' => $viewpage]),
-                get_string($identifier, 'block_sms77')) . '<br>';
+                new moodle_url('/blocks/seven/view.php', ['viewpage' => $viewpage]),
+                get_string($identifier, 'block_seven')) . '<br>';
     }
 
     /** @return bool */

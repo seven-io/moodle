@@ -11,12 +11,12 @@ class template_form extends moodleform {
 
         $mform->addElement('header',
             'msg_template_header',
-            get_string('msg_template_header', 'block_sms77'));
+            get_string('msg_template_header', 'block_seven'));
 
         $mform->addElement('text', 'tname', 'Name:', ['size' => 44]);
         $mform->addRule(
             'tname',
-            get_string('tpl_specify_name', 'block_sms77'),
+            get_string('tpl_specify_name', 'block_seven'),
             'required',
             'client');
         $mform->setType('tname', PARAM_TEXT);
@@ -24,11 +24,11 @@ class template_form extends moodleform {
         $mform->addElement(
             'textarea',
             'template',
-            get_string('msg', 'block_sms77') . ':',
+            get_string('msg', 'block_seven') . ':',
             ['rows' => '6', 'cols' => '47']);
         $mform->addRule(
             'template',
-            get_string('tpl_specify_msg', 'block_sms77'),
+            get_string('tpl_specify_msg', 'block_seven'),
             'required',
             'client');
         $mform->setType('template', PARAM_TEXT);
@@ -48,9 +48,9 @@ class template_form extends moodleform {
         $errors = [];
 
         if ('' === $data['tname']) {
-            $errors['tname'] = get_string('missing_template_name', 'block_sms77');
+            $errors['tname'] = get_string('missing_template_name', 'block_seven');
 
-            if ($DB->record_exists('block_sms77_template', ['tname' => $data['tname']]))
+            if ($DB->record_exists('block_seven_template', ['tname' => $data['tname']]))
                 $errors['template'] = 'Template Name exists already!';
 
             return $errors;
@@ -62,27 +62,27 @@ class template_form extends moodleform {
     public function display_report() {
         global $CFG, $DB, $OUTPUT;
 
-        $editTrans = get_string('edit', 'block_sms77');
-        $delTrans = get_string('delete', 'block_sms77');
+        $editTrans = get_string('edit', 'block_seven');
+        $delTrans = get_string('delete', 'block_seven');
 
         $table = new html_table;
         $table->align = ['center', 'left', 'left', 'center', 'center'];
         $table->attributes = ['class' => 'display', 'style' => 'width: 100%;'];
         $table->head = [
-            get_string('serial_no', 'block_sms77'),
-            get_string('name', 'block_sms77'),
-            get_string('msg_body', 'block_sms77'),
+            get_string('serial_no', 'block_seven'),
+            get_string('name', 'block_seven'),
+            get_string('msg_body', 'block_seven'),
             $editTrans,
             $delTrans,
         ];
         $table->size = ['10%', '20%', '50%', '10%', '10%'];
 
         $i = 0;
-        foreach ($DB->get_recordset_sql('SELECT * FROM {block_sms77_template}') as $log) {
+        foreach ($DB->get_recordset_sql('SELECT * FROM {block_seven_template}') as $log) {
             $urlFn = method_exists($OUTPUT, 'image_url') ? 'image_url' : 'pix_url';
             $edit = $OUTPUT->$urlFn('t/edit');
             $delete = $OUTPUT->$urlFn('t/delete');
-            $prefix = $CFG->wwwroot . '/blocks/sms77/view.php?viewpage=3&';
+            $prefix = $CFG->wwwroot . '/blocks/seven/view.php?viewpage=3&';
 
             $row = [];
             $row[] = ++$i;
