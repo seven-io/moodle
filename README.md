@@ -1,33 +1,66 @@
-<img src="https://www.seven.io/wp-content/uploads/Logo.svg" width="250" />
+<p align="center">
+  <img src="https://www.seven.io/wp-content/uploads/Logo.svg" width="250" alt="seven logo" />
+</p>
 
+<h1 align="center">seven SMS &amp; Voice for Moodle</h1>
 
-# SMS & Text2Voice Notification Block for Moodle
+<p align="center">
+  Send SMS and text-to-speech notifications to your <a href="https://moodle.org/">Moodle</a> learners and staff via the seven gateway.
+</p>
+
+<p align="center">
+  <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-teal.svg" alt="MIT License" /></a>
+  <img src="https://img.shields.io/badge/Moodle-block-orange" alt="Moodle block" />
+  <img src="https://img.shields.io/badge/PHP-7.4%2B-purple" alt="PHP 7.4+" />
+</p>
+
+---
+
+## Features
+
+- **SMS & Text-to-Voice** - Notify learners or admins via SMS or automated phone calls
+- **User-Field Placeholders** - Reference any standard Moodle user column in your message body
+- **Standard Block Plugin** - Drop the seven block onto any Moodle page
+
+## Prerequisites
+
+- A [Moodle](https://moodle.org/) installation
+- A [seven account](https://www.seven.io/) with API key ([How to get your API key](https://help.seven.io/en/developer/where-do-i-find-my-api-key))
 
 ## Installation
 
 1. Download the [latest release](https://github.com/seven-io/moodle/releases/latest/download/seven-moodle-latest.zip).
-2. Copy plugin folder into moodle blocks folder.
-3. Log in to moodle as an administrator.
-4. Install the plugin by clicking on 'reload database' button.
-5. You will be asked for an [API key](https://help.seven.io/en/api-key-access). Enter it, and you are ready to add a seven.io block.
+2. Copy the plugin folder into Moodle's `blocks/` directory.
+3. Log in to Moodle as administrator.
+4. Click the **Reload database** button to install the plugin.
+5. Paste your seven API key when prompted.
 
-### Message placeholders
+You can now drop the seven.io block onto any course or dashboard page.
 
-Reference the following user columns by wrapping them into double curly brackets, eg `{{firstname}}`:
-- username
-- firstname
-- lastname
-- email
-- phone1
-- phone2
-- institution
-- department
-- address
-- city
-- country
+## Message Placeholders
 
-#### Support
+Wrap any of these user columns in `{{ ... }}`:
 
-Need help? Feel free to [contact us](https://www.seven.io/en/company/contact).
+| Placeholder | Description |
+|-------------|-------------|
+| `{{username}}` | Username |
+| `{{firstname}}` | First name |
+| `{{lastname}}` | Last name |
+| `{{email}}` | Email address |
+| `{{phone1}}` | Primary phone |
+| `{{phone2}}` | Secondary phone |
+| `{{institution}}` | Institution |
+| `{{department}}` | Department |
+| `{{address}}` | Postal address |
+| `{{city}}` | City |
+| `{{country}}` | Country |
 
-[![MIT](https://img.shields.io/badge/License-MIT-teal.svg)](LICENSE)
+Unresolved placeholders remain as plain text in the outgoing message.
+
+## Support
+
+Need help? Feel free to [contact us](https://www.seven.io/en/company/contact/) or [open an issue](https://github.com/seven-io/moodle/issues).
+
+## License
+
+[MIT](LICENSE)
